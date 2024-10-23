@@ -8,10 +8,10 @@ from langchain.embeddings import OpenAIEmbeddings
 from uuid import uuid4
 from tqdm import tqdm
 import shutil
-from openai import OpenAI
 
 
-os.environ['OPENAI_API_KEY'] = 'go-niners'
+
+token = os.environ.get("OPENAI_API_KEY")
 
 def populate_vector_db(directory):
     print("Populating Vector DB...")
@@ -38,12 +38,7 @@ def create_faiss_store(documents, llm, store_path="faiss_index", embedding_size=
     if os.path.exists(store_path) and (not rewrite):
         return FAISS.load_local(store_path,allow_dangerous_deserialization=True,embeddings=llm._generate_embeddings)
     print("Creating FAISS store...")
-    base_url = os.environ.get("MODAL_BASE_URL")
-    token = os.environ.get("DSBA_LLAMA3_KEY")
-    api_url = base_url + "/v1"
-
-    llm = OpenAI(api_key=token, base_url=api_url)
-    embeddings = OpenAIEmbeddings() 
+    embeddings = OpenAIEmbeddings(api_key=token) 
     index = faiss.IndexFlatL2(embedding_size)
     vectorstore = FAISS(index=index, embedding_function=embeddings,
                         docstore=InMemoryDocstore(), index_to_docstore_id={})

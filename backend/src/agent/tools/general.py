@@ -4,95 +4,43 @@ import json
 from typing import Any, Dict
 from langchain_core.runnables import RunnableConfig
 import os
-from openai import OpenAI
+from langchain_openai import ChatOpenAI
 from operator import itemgetter
 from langchain.schema.runnable import RunnableMap    
 from langchain.schema import StrOutputParser
 from langchain.schema.runnable import RunnablePassthrough
 from langchain_core.prompts import ChatPromptTemplate
 from backend.src.agent.rag import load_faiss_store
+from openai import OpenAI
+from langchain_openai import OpenAIEmbeddings
 
-def getTDMAccessToken():
-    url = "https://qa.api.ally.com/v1/access/token"
-    payload = 'grant_type=client_credentials'
-    headers = {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': 'Basic NFNhbzZseXpPUXhLMFBScExSZUdjRmQxemE0VldmYWg6TG8zczFNR1BkckJ1dlVSZQ=='
-                }
- 
-    response = requests.request("POST", url, headers=headers, data=payload)
-    if response.status_code==200 and 'access_token' in response.json():
-        print("got access token")
-        return response.json()['access_token']
-    else:
-        return 'Error'
+token = os.environ.get("OPENAI_API_KEY")
 
 @tool
-def password_reset_tdm(env:str,
-                         username:str, 
-                         newPassword:str) -> str:
-    """Changes the password of the given user name on the given ENV using TDM API.
-
+def book_a_cab(userquery: str) -> str:
+    """Fetches user query to book a cab or taxi to a restaurant and responds back with a confirmation
+    
     Args:
-        env (str): The environment where the user password needs to change. It could be QA, DEV, PROD etc.
-        username (str): User name of the user
-        newPassword (str): New password to change
+        userquery (str): request to book a cab
 
     Returns:
-        str: Status of the password change
+        (str): Returns a string messgae confirming that the cab has been booked and will arrive as suugested
     """
-    Auth = getTDMAccessToken()
-    print(Auth)
-    if 'Error' not in Auth:          
-        url = 'https://qa.api.ally.com/tdm-api/passwordChange'
-        payload ={"testingEnv":env.upper(),"userName":username,"newPassword":newPassword}
-        headers = {
-        'Authorization': 'Bearer '+ Auth
-        }
-        response = requests.request("POST", url, json=payload,headers=headers)
-        if response.status_code == 200:
-            return response.json()['msg']
-        else:
-            print(response.status_code)
-            print(response.text)
-            return 'Error occured at the backend during password change.'
- 
-    else:
-        return "Error occured at the backend during password change."
+    return "your taxi has been booked"
 
 
 @tool
-def get_info_from_db(name:str, config: RunnableConfig) -> Dict[str, Any]:
-    """Fetches and returns the user information from DB
+def book_a_table(userquery:str) -> str:
+    """Fetches user query to book a table in a restaurant and responds back with a confirmation
     
     Args:
-        name (str): full name of the user
+        userquery (str): full name of the user
 
     Returns:
-        Dict[str, Any]: A dictionary with all information about a person
+        (str): Returns a strinf messgae confirming that the restaurant has been booked with date and time stamp
     """
-    db_path = os.path.dirname(os.path.abspath(__file__)) + "/../db/profile.json"
+    return "Restaurant table as been booked for requetsed party"
     
-    print("Getting user info from : ",db_path)
-    if not name:
-        print("No name was provided, getting from config..")
-        configuration = config.get("configurable", {})
-        name = configuration.get("name", None)
-    print("Name :: ",name)
-        
-
-    with open(
-        db_path,
-        "r",
-    ) as file:
-        users_info = json.load(file)
-
-        for user_info in users_info:
-            if f"{user_info['first_name']} {user_info['last_name']}" == name:
-                print("found user :: ",user_info)
-                return user_info
-        return f"Couldn't find user {name} in DB"
-
 
 @tool
 def answer_question(query: str):
@@ -104,13 +52,12 @@ def answer_question(query: str):
     Returns:
         str: response of user query fetched through RAG
     """
-    base_url = os.environ.get("MODAL_BASE_URL")
-    token = os.environ.get("DSBA_LLAMA3_KEY")
-    api_url = base_url + "/v1"  
-    llm = OpenAI(api_key=token, base_url=api_url)
+    token = os.environ.get("OPENAI_API_KEY") 
+    llm = OpenAI(api_key=token)
+    embedding_model = OpenAIEmbeddings()
     path = os.path.dirname(os.path.abspath(__file__)) + "/../"
     db = load_faiss_store(path+"faiss_store/", llm)
-    query_embedding = llm._generate_embeddings(query)
+    query_embedding = embedding_model.embed_query(query)
     docs = db.max_marginal_relevance_search_with_score_by_vector(
         embedding=query_embedding, k=5, lambda_mult=0.1, fetch_k=30 
     )

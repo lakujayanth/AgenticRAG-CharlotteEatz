@@ -1,0 +1,22 @@
+| food_id | name | price | description | ingredients | restaurant_name | style_name | zip_code |
+|---------|------|--------|-------------|-------------|-----------------|------------|----------|
+| 1 | Southern Fried Chicken Platter | 16.99 | Crispy buttermilk-brined chicken served with honey butter biscuits and collard greens | chicken;buttermilk;flour;spices;honey;butter;collard greens | Magnolia's Home Kitchen | Southern | 28205 |
+| 2 | Shrimp & Grits | 18.99 | Creamy stone-ground grits topped with sautéed shrimp, andouille sausage, and creole sauce | shrimp;grits;andouille sausage;butter;cream;creole seasonings;bell peppers;onions | Magnolia's Home Kitchen | Southern | 28205 |
+| 3 | Nashville Hot Chicken Sandwich | 14.99 | Spicy fried chicken breast with house-made pickles and slaw on a brioche bun | chicken breast;cayenne;paprika;pickles;cabbage;mayonnaise;brioche | Hot Bird | Southern | 28202 |
+| 4 | Bulgogi Bowl | 15.99 | Marinated Korean beef served over steamed rice with kimchi and vegetables | beef;soy sauce;sesame oil;garlic;ginger;rice;kimchi;carrots;spinach | Seoul Kitchen | Korean | 28203 |
+| 5 | Kimchi Fried Rice | 13.99 | House-made kimchi fried with rice, vegetables, and topped with a fried egg | rice;kimchi;vegetables;egg;sesame oil;green onions | Seoul Kitchen | Korean | 28203 |
+| 6 | Wood-Fired Margherita Pizza | 16.99 | Fresh mozzarella, basil, and San Marzano tomatoes on hand-tossed dough | flour;tomatoes;mozzarella;basil;olive oil;garlic | Vesuvio's | Italian | 28204 |
+| 7 | Lobster Mac & Cheese | 24.99 | Maine lobster in a creamy five-cheese sauce with truffle breadcrumbs | lobster;pasta;cheddar;gruyere;parmesan;fontina;mozzarella;breadcrumbs;truffle oil | The Catch | Seafood | 28206 |
+| 8 | Poke Bowl | 17.99 | Fresh ahi tuna, avocado, edamame, and pickled vegetables over sushi rice | tuna;rice;avocado;edamame;cucumber;carrots;sesame seeds;soy sauce | Pacific Poke | Asian Fusion | 28209 |
+| 9 | BBQ Platter | 22.99 | Slow-smoked pulled pork, brisket, and ribs with cornbread and slaw | pork;brisket;ribs;bbq sauce;cornmeal;cabbage;carrots | Smoke House | BBQ | 28208 |
+| 10 | Vegan Buddha Bowl | 15.99 | Quinoa, roasted vegetables, avocado, and tahini dressing | quinoa;sweet potato;chickpeas;kale;avocado;tahini;lemon | Green Table | Vegan | 28203 |
+| 11 | Fish Tacos | 16.99 | Grilled mahi-mahi with lime crema, pickled red onions, and cilantro slaw | mahi-mahi;tortillas;lime;sour cream;red onions;cilantro;cabbage | Coastal Kitchen | Seafood | 28211 |
+| 12 | Pad Thai | 14.99 | Rice noodles with tofu, shrimp, peanuts, and tamarind sauce | rice noodles;tofu;shrimp;peanuts;bean sprouts;eggs;tamarind;lime | Thai Spice | Thai | 28207 |
+| 13 | Ramen Bowl | 16.99 | Tonkotsu broth with chashu pork, soft egg, and fresh noodles | pork bone;chashu;noodles;egg;bamboo shoots;green onions;nori | Slurp | Japanese | 28204 |
+| 14 | Chicken Tikka Masala | 17.99 | Tender chicken in a creamy tomato curry sauce with basmati rice | chicken;yogurt;tomatoes;cream;spices;rice;cilantro | Taj Express | Indian | 28210 |
+| 15 | Mediterranean Plate | 15.99 | Hummus, falafel, tabbouleh, and warm pita bread | chickpeas;tahini;parsley;bulgur;tomatoes;olive oil;pita | Olive Grove | Mediterranean | 28205 |
+| 16 | Classic Burger | 13.99 | Half-pound Angus beef patty with aged cheddar and house sauce | beef;cheddar;lettuce;tomato;onion;brioche bun;special sauce | Queen City Grill | American | 28202 |
+| 17 | Seafood Paella | 28.99 | Saffron rice with shrimp, mussels, chorizo, and seasonal vegetables | rice;shrimp;mussels;chorizo;peas;bell peppers;saffron | Barcelona | Spanish | 28203 |
+| 18 | Duck Confit | 26.99 | Slow-cooked duck leg with roasted fingerling potatoes and cherry gastrique | duck;potatoes;cherries;thyme;garlic;wine | Bistro Central | French | 28204 |
+| 19 | Sushi Deluxe | 32.99 | Chef's selection of premium nigiri and rolls with wasabi and pickled ginger | tuna;salmon;yellowtail;eel;rice;nori;wasabi;ginger | Sakura | Japanese | 28209 |
+| 20 | Ribeye Steak | 34.99 | 16oz prime ribeye with roasted garlic mashed potatoes and seasonal vegetables | beef;potatoes;garlic;butter;herbs;seasonal vegetables | Prime Cut | Steakhouse | 28202 |

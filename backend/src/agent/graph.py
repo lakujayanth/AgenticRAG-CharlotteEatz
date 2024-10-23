@@ -6,19 +6,18 @@ from langgraph.graph import END, StateGraph, START
 from langchain_core.messages import ToolMessage, HumanMessage
 import json
 import os
-from openai import OpenAI
+from langchain_openai import ChatOpenAI
 from backend.src.agent.state import State
 from backend.src.agent.nodes.assistant import Assistant
 from backend.src.agent.utils import create_tool_node_with_fallback
-from backend.src.agent.tools.general import get_info_from_db, password_reset_tdm, answer_question
+from backend.src.agent.tools.general import book_a_cab, book_a_table, answer_question
 from backend.src.agent.rag import populate_vector_db, create_faiss_store
 
 
-base_url = os.environ.get("MODAL_BASE_URL")
-token = os.environ.get("DSBA_LLAMA3_KEY")
-api_url = base_url + "/v1"
 
-llm = OpenAI(api_key=token, base_url=api_url)
+token = os.environ.get("OPENAI_API_KEY")
+
+llm = ChatOpenAI(api_key=token)
 
 
 ########### General Agent ###########################
@@ -31,7 +30,7 @@ general_prompt = ChatPromptTemplate.from_messages(
     [
         (
             "system",
-            "You are a helpful Assistant to perform tasks related to general user requests for Ally Bank. "
+            "You are a helpful Assistant to perform tasks related to general user requests for local restaurants in charlotte. "
             "Remember to execute the actions/tools in the order that satisfies the user request. Don't randomize the tool order of execution."
             "\n1) Use the provided tools to find the appropriate tool/tools for the given user request."
         ),
@@ -39,9 +38,9 @@ general_prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-general_safe_tools = [get_info_from_db]
+general_safe_tools = [book_a_table]
 
-general_sensitive_tools = [password_reset_tdm]
+general_sensitive_tools = [book_a_cab]
 
 rag_tools = [answer_question]
 
@@ -52,7 +51,7 @@ general_agent = general_prompt | llm.bind_tools(general_safe_tools + general_sen
 ####### Graph ################
 
 builder = StateGraph(State)
-routes:list = json.load(open(os.path.dirname(os.path.abspath(__file__))+"/../role-values.json"))
+routes:list = json.load(open(os.path.dirname(os.path.abspath(__file__))+"/../../../role-values.json"))
 
 
 def route_to_agent(state:State):
