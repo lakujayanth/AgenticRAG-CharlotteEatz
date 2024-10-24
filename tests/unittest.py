@@ -1,8 +1,7 @@
 import pytest
 import os
 from unittest.mock import patch, MagicMock
-from backend.src.tools.general import book_a_cab, book_a_table, answer_question  # Replace with actual module
-
+from backend.src.tools.general import book_a_cab, book_a_table, answer_question  
 # Test book_a_cab
 def test_book_a_cab():
     result = book_a_cab("I need a taxi to go to the restaurant")
