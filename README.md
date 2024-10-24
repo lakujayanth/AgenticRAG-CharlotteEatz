@@ -1,4 +1,4 @@
-# 🦙 Charlotte Eatz Chatbot  
+# 🍴 Charlotte Eatz Chatbot  
 __Group 3__: Eric (product mgr.), Yaxin (data/prompt engr.), Lakshmi (app dev.), Gaurav (LLM ops.)  
   
 ## ⚙️ Setup  
