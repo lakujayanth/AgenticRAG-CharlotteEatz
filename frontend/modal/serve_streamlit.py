@@ -59,8 +59,10 @@ streamlit_script_mount = modal.Mount.from_local_file(
 @app.function(
     allow_concurrent_inputs=100,
     mounts=[streamlit_script_mount],
-    secrets=[modal.Secret.from_name("dsba-llama3-key"),
-             modal.Secret.from_name("modal-base-url")],
+    secrets=[
+        modal.Secret.from_name("dsba-llama3-key"),
+        modal.Secret.from_name("modal-base-url"),
+    ],
 )
 @modal.web_server(8000)
 def run():

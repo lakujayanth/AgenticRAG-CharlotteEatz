@@ -18,16 +18,18 @@ if "openai_model" not in st.session_state:
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+
 # Function to check API health
 def check_api_health():
     try:
-        headers = {
-            "Authorization": f"Bearer {st.secrets['DSBA_LLAMA3_KEY']}"
-        }
-        response = requests.get(f"{st.secrets['MODAL_BASE_URL']}/health", headers=headers, timeout=5)
+        headers = {"Authorization": f"Bearer {st.secrets['DSBA_LLAMA3_KEY']}"}
+        response = requests.get(
+            f"{st.secrets['MODAL_BASE_URL']}/health", headers=headers, timeout=5
+        )
         return response.status_code == 200
     except requests.RequestException:
         return False
+
 
 # Sidebar
 st.sidebar.title("Chat Settings")
@@ -50,7 +52,9 @@ if st.sidebar.button("Reset Chat"):
 # Check API health and display warning if not healthy
 api_healthy = check_api_health()
 if not api_healthy:
-    st.warning("Warning: The API endpoint is currently unavailable. Some features may not work properly.")
+    st.warning(
+        "Warning: The API endpoint is currently unavailable. Some features may not work properly."
+    )
 
 # Display chat messages from history on app rerun
 for message in st.session_state.messages:
@@ -73,9 +77,8 @@ if prompt := st.chat_input("What is up?"):
         try:
             stream = client.chat.completions.create(
                 model=st.session_state["openai_model"],
-                messages=[
-                    {"role": "system", "content": system_prompt}
-                ] + [
+                messages=[{"role": "system", "content": system_prompt}]
+                + [
                     {"role": m["role"], "content": m["content"]}
                     for m in st.session_state.messages
                 ],
@@ -99,6 +102,8 @@ if prompt := st.chat_input("What is up?"):
 
         except Exception as e:
             st.error(f"An error occurred: {str(e)}")
-            full_response = "I apologize, but I encountered an error while processing your request."
-        
+            full_response = (
+                "I apologize, but I encountered an error while processing your request."
+            )
+
     st.session_state.messages.append({"role": "assistant", "content": full_response})

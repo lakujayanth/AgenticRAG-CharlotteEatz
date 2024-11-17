@@ -3,28 +3,32 @@ import pandas as pd
 from datetime import datetime
 import random
 
+
 def init_session_state():
-    if 'messages' not in st.session_state:
+    if "messages" not in st.session_state:
         st.session_state.messages = []
-    if 'current_case' not in st.session_state:
+    if "current_case" not in st.session_state:
         st.session_state.current_case = None
-    if 'cases' not in st.session_state:
+    if "cases" not in st.session_state:
         st.session_state.cases = []
+
 
 def generate_case_number():
     return f"CASE-{datetime.now().strftime('%Y%m%d')}-{random.randint(1000, 9999)}"
 
+
 def create_new_case(case_type, description):
     case = {
-        'case_number': generate_case_number(),
-        'type': case_type,
-        'status': 'New',
-        'assigned_agent': 'Unassigned',
-        'description': description,
-        'created_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        "case_number": generate_case_number(),
+        "type": case_type,
+        "status": "New",
+        "assigned_agent": "Unassigned",
+        "description": description,
+        "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
     }
     st.session_state.cases.append(case)
     return case
+
 
 def main():
     st.set_page_config(page_title="Multi-Agent Support System", layout="wide")
@@ -33,12 +37,12 @@ def main():
     # Sidebar for case management
     with st.sidebar:
         st.title("Case Management")
-        
+
         # New Case Creation
         st.subheader("Create New Case")
         case_type = st.selectbox(
             "Case Type",
-            ["Deposit Operations", "Investment Operations", "General Inquiry"]
+            ["Deposit Operations", "Investment Operations", "General Inquiry"],
         )
         case_description = st.text_area("Case Description")
         if st.button("Create Case"):
@@ -50,8 +54,7 @@ def main():
         st.subheader("Active Cases")
         for case in st.session_state.cases:
             if st.button(
-                f"{case['case_number']} - {case['type']}",
-                key=case['case_number']
+                f"{case['case_number']} - {case['type']}", key=case["case_number"]
             ):
                 st.session_state.current_case = case
 
@@ -62,11 +65,11 @@ def main():
     if st.session_state.current_case:
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.metric("Case Number", st.session_state.current_case['case_number'])
+            st.metric("Case Number", st.session_state.current_case["case_number"])
         with col2:
-            st.metric("Status", st.session_state.current_case['status'])
+            st.metric("Status", st.session_state.current_case["status"])
         with col3:
-            st.metric("Assigned Agent", st.session_state.current_case['assigned_agent'])
+            st.metric("Assigned Agent", st.session_state.current_case["assigned_agent"])
 
         # Agent Selection
         agent_type = st.selectbox(
@@ -75,8 +78,8 @@ def main():
                 "Deposit Ops Agent",
                 "Invest Ops Agent",
                 "Deposit Supervisor",
-                "General Agent"
-            ]
+                "General Agent",
+            ],
         )
 
         # Chat Interface
@@ -97,17 +100,17 @@ def main():
                 st.markdown(response)
 
             # Update case status (simplified)
-            st.session_state.current_case['status'] = 'In Progress'
-            st.session_state.current_case['assigned_agent'] = agent_type
+            st.session_state.current_case["status"] = "In Progress"
+            st.session_state.current_case["assigned_agent"] = agent_type
 
         # Case Actions
         col1, col2, col3 = st.columns(3)
         with col1:
             if st.button("Mark as Resolved"):
-                st.session_state.current_case['status'] = 'Resolved'
+                st.session_state.current_case["status"] = "Resolved"
         with col2:
             if st.button("Escalate Case"):
-                st.session_state.current_case['status'] = 'Escalated'
+                st.session_state.current_case["status"] = "Escalated"
         with col3:
             if st.button("Reset Chat"):
                 st.session_state.messages = []
@@ -120,6 +123,7 @@ def main():
     if st.session_state.cases:
         df = pd.DataFrame(st.session_state.cases)
         st.dataframe(df, hide_index=True)
+
 
 if __name__ == "__main__":
     main()

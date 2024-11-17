@@ -6,7 +6,7 @@ from langchain_core.messages import ToolMessage, HumanMessage, AIMessage
 from langchain_core.output_parsers import StrOutputParser
 import uuid
 from dotenv import load_dotenv
-import langgraph 
+import langgraph
 from langgraph.pregel.io import AddableValuesDict
 
 # Initialize unique thread ID for the session
@@ -40,14 +40,19 @@ st.markdown(
     }
     </style>
     """,
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 
 st.image("image2.png", use_column_width=True)
 
 
-st.markdown("<h2 class='header-text'>Your Personal Restaurant Assistant 🤖</h2>", unsafe_allow_html=True)
-st.markdown("Dinebot can assist you with cab booking, table reservations, and provide restaurant information. Ask me anything!")
+st.markdown(
+    "<h2 class='header-text'>Your Personal Restaurant Assistant 🤖</h2>",
+    unsafe_allow_html=True,
+)
+st.markdown(
+    "Dinebot can assist you with cab booking, table reservations, and provide restaurant information. Ask me anything!"
+)
 
 # Session state for storing responses and agent state
 if "chat_history" not in st.session_state:
@@ -64,10 +69,9 @@ def get_response(query):
     persona = "General Agent"
     # Call the agent with user input
     events = graph.stream(
-        {"messages": {"General Agent": ("user", query)},
-         "current_persona": persona},
+        {"messages": {"General Agent": ("user", query)}, "current_persona": persona},
         config,
-        stream_mode="values"
+        stream_mode="values",
     )
     # Process the events and display them
     for event in events:
@@ -76,8 +80,8 @@ def get_response(query):
         # Ensure 'event' is a dictionary before accessing its contents
         if isinstance(event, dict):
             # Retrieve the 'messages' dictionary and the 'current_persona'
-            messages = event.get('messages', {})
-            current_persona = event.get('current_persona', 'General Agent')
+            messages = event.get("messages", {})
+            current_persona = event.get("current_persona", "General Agent")
 
             # Get the list of messages for the current persona
             persona_messages = messages.get(current_persona, [])
@@ -100,16 +104,16 @@ def get_response(query):
     st.markdown("No AI response available.")
     return None
 
-  
-#conversation 
+
+# conversation
 for message in st.session_state.chat_history:
-    if isinstance(message,HumanMessage):
+    if isinstance(message, HumanMessage):
         with st.chat_message("You"):
             st.markdown(message.content)
     else:
         with st.chat_message("DineBot"):
             st.markdown(message.content)
-            
+
 # User input
 user_query = st.chat_input("You:")
 
@@ -119,7 +123,6 @@ if user_query is not None and user_query != "":
     with st.chat_message("You"):
         st.markdown(user_query)
     with st.chat_message("DineBot"):
-        
+
         ai_resp = get_response(query=user_query)
         st.session_state.chat_history.append(AIMessage(ai_resp))
-   

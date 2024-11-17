@@ -2,14 +2,16 @@ import pytest
 import os
 
 from unittest.mock import patch, MagicMock
-from backend.src.agent.tools.general import book_a_cab, book_a_table, answer_question  
+from backend.src.agent.tools.general import book_a_cab, book_a_table, answer_question
+
 # # Test book_a_cab
 # def test_book_a_cab():
 #     result = book_a_cab("I need a taxi to go to the restaurant")
 #     assert result == "your taxi has been booked", "Cab booking response is incorrect"
 #     print("Test Passed: The cab booking response is correct")
 from _pytest.debugging import pytestPDB as __pytestPDB
-import trafaret as t 
+import trafaret as t
+
 
 def test_book_a_cab():
     boolean_field = t.ToBool
@@ -17,6 +19,7 @@ def test_book_a_cab():
     if result != "your taxi has been booked":
         __pytestPDB().set_trace()  # Start the debugger here
     assert result == "your taxi has been booked", "Cab booking response is incorrect"
+
 
 test_book_a_cab()
 # # Test book_a_table

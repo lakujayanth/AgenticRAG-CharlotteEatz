@@ -1,12 +1,14 @@
 """This simple script shows how to interact with an OpenAI-compatible server from a client."""
+
 import modal
 import os
 from openai import OpenAI
 
 from dotenv import load_dotenv
 
-load_dotenv() 
+load_dotenv()
 base_url = os.environ.get("MODAL_BASE_URL")
+
 
 class Colors:
     """ANSI color codes"""
@@ -22,9 +24,7 @@ client = OpenAI(api_key=os.environ.get("DSBA_LLAMA3_KEY"))
 
 WORKSPACE = modal.config._profile
 
-client.base_url = (
-    f"{base_url}"
-)
+client.base_url = f"{base_url}"
 
 print(
     Colors.GREEN,

@@ -139,7 +139,10 @@ def serve():
     async def authentication(request: fastapi.Request, call_next):
         if not request.url.path.startswith("/v1"):
             return await call_next(request)
-        if request.headers.get("Authorization") != "Bearer " + os.environ["DSBA_LLAMA3_KEY"]:
+        if (
+            request.headers.get("Authorization")
+            != "Bearer " + os.environ["DSBA_LLAMA3_KEY"]
+        ):
             return fastapi.responses.JSONResponse(
                 content={"error": "Unauthorized"}, status_code=401
             )
