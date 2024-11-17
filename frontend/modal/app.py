@@ -6,19 +6,19 @@ import time
 import toml
 import os
 
-st.title("Modal Llama 3 Instruct Deployment")
+st.title("Charlotte Eatz")
 
 load_dotenv() 
 
-base_url = os.environ.get("MODAL_BASE_URL")
-token = os.environ.get("DSBA_LLAMA3_KEY")
-api_url = base_url + "/v1"
+#base_url = os.environ.get("MODAL_BASE_URL")
+token = os.environ.get("OPENAI_API_KEY")
+#api_url = base_url + "/v1"
 
 # Set API key from Streamlit secrets
-client = OpenAI(api_key=token, base_url=api_url)
+client = OpenAI(api_key=token)
 
 if "openai_model" not in st.session_state:
-    st.session_state["openai_model"] = "/models/NousResearch/Meta-Llama-3-8B-Instruct"
+    st.session_state["openai_model"] = "gpt-3.5-turbo"
 
 # Initialize chat history
 if "messages" not in st.session_state:
@@ -30,7 +30,7 @@ def check_api_health():
         headers = {
             "Authorization": f"Bearer {token}"
         }
-        response = requests.get(f"{base_url}/health", headers=headers, timeout=5)
+        response = requests.get(f"/health", headers=headers, timeout=5)
         return response.status_code == 200
     except requests.RequestException:
         return False
