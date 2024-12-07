@@ -22,30 +22,48 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-@tool
-def book_a_cab(userquery: str) -> str:
-    """Fetches user query to book a cab or taxi to a restaurant and responds back with a confirmation
-
-    Args:
-        userquery (str): request to book a cab
-
-    Returns:
-        (str): Returns a string messgae confirming that the cab has been booked and will arrive as suugested
-    """
-    return "your taxi has been booked"
-
 
 @tool
-def book_a_table(userquery: str) -> str:
-    """Fetches user query to book a table in a restaurant and responds back with a confirmation
+
+def book_a_cab(userquery: str, pickuplocation: str, pickuptime: str, numofpassengers: int, specialrequirements: str) -> str:
+    """
+    Books a cab based on user's request and details.
 
     Args:
-        userquery (str): full name of the user
+        userquery (str): User's original cab request.
+        pickuplocation (str): Pickup address.
+        pickuptime (str): Desired pickup time.
+        numofpassengers (int): Number of passengers.
+        specialrequirements (str): Any special needs (e.g., "wheelchair accessible").
 
     Returns:
-        (str): Returns a strinf messgae confirming that the restaurant has been booked with date and time stamp
+        str: Booking confirmation message.
     """
-    return "Restaurant table as been booked for requetsed party"
+    return "Your taxi has been booked"
+
+@tool
+def book_a_table(userquery: str, date: str, time: str) -> str:
+    """
+    Books a table in a restaurant based on the user's query and specified date and time.
+
+    This function processes the user's request to book a table, along with the
+    desired date and time for the reservation, and returns a confirmation message.
+
+    Args:
+        userquery (str): The user's original request to book a table, which may include
+                         additional details such as restaurant name or number of people.
+        date (str): The desired date for the reservation (e.g., "2023-06-15").
+        time (str): The desired time for the reservation (e.g., "19:30").
+
+    Returns:
+        str: A confirmation message indicating that the restaurant table has been booked
+             successfully. This message includes the date and time of the reservation.
+
+    Example:
+        >>> book_a_table("Book a table for 4 at Italian Restaurant", "2023-06-15", "19:30")
+        "Restaurant table has been booked for the requested party on 2023-06-15 at 19:30."
+    """
+    return f"Restaurant table has been booked for the requested party on {date} at {time}."
 
 
 @tool
