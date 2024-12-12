@@ -56,6 +56,7 @@ with st.sidebar:
             )
 if api_key:
     os.environ["OPENAI_API_KEY"] = api_key
+    
 else:
     st.sidebar.warning("Please provide your OpenAI API Key to continue.")
     st.sidebar.info("Go to the 'Configuration' section in the sidebar to enter your API Key.")
